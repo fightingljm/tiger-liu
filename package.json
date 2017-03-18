@@ -1,5 +1,5 @@
 {
-  "name": "react-transform-boilerplate",
+  "name": "tiger-liu",
   "version": "1.0.0",
   "description": "A new Webpack boilerplate with hot reloading React components, and error handling on module and component level.",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gaearon/react-transform-boilerplate.git"
+    "url": "https://github.com/fightingljm/tiger-liu.git"
   },
   "keywords": [
     "react",

@@ -113,6 +113,7 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 
@@ -123,18 +124,15 @@ class Header extends React.Component{
       open: false,
       action:'signin',
       username:'',
-      password:''
+      password:'',
+      welcome:'登录/注册'
     }
   }
   handleClose(){
-    this.setState({
-      open: false
-    })
+    this.setState({open: false})
   }
   handleOpen(){
-    this.setState({
-      open: true
-    })
+    this.setState({open: true})
   }
   handleUsername(event,username){
     this.setState({username:username.trim()})
@@ -144,14 +142,18 @@ class Header extends React.Component{
   }
   handleSubmit(){
     let data = {username:this.state.username,password:this.state.password}
+    // console.log(data);
     axios.post(`http://api.duopingshidai.com/user/${this.state.action}`,data)
-      .then(function (res) {
-        // console.log(res);
-        this.setState({open:false,username:'',password:''})
+      .then(res => {
+        console.log(res);
+        this.setState({open:false})
+        if(this.state.action=='signin'&&res.data.msg=='登陆成功'){
+          this.setState({welcome:`你好,${res.data.user}!欢迎登录!`})
+        }
       })
       .catch(err => {
         if(err.response){
-          console.log(err.response);
+          alert(err.response.data.msg);
         }else{
           console.log('Error',err);
         }
@@ -172,13 +174,16 @@ class Header extends React.Component{
       />,
     ]
     return(
-      <div>
-        <AppBar
-          title="标题"
-          iconElementLeft={<IconButton><ActionHome /></IconButton>}
-          onRightIconButtonTouchTap={this.handleOpen.bind(this)}
-          iconElementRight={<FlatButton label="登陆/注册" />}
-        />
+      <div className='header-wrap'>
+        <div className='app-bar'>
+          <AppBar
+            title="Tiger_Liu"
+            iconElementLeft={<IconButton><ActionHome /></IconButton>}
+            onRightIconButtonTouchTap={this.handleOpen.bind(this)}
+            iconElementRight={<FlatButton label={this.state.welcome} />}
+          />
+        </div>
+        {/* <div className='loginout'>{this.state.welcome!='登录/注册'&&this.state.welcome!='' ? <RaisedButton label='退出'/> :  <div></div>}</div> */}
         <Dialog
           title="用户表单"
           actions={actions}
