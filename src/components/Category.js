@@ -25,6 +25,7 @@ class Category extends React.Component {
         console.log(res.data.category);
         this.state.categories.push(res.data.category)
 
+        this.setState({categories:this.state.categories})
         this.setState({msg:res.data.msg})
         this.setState({snackBar:true})
       })
