@@ -12,9 +12,12 @@ class App extends React.Component {
   }
   render(){
     return(
-      <MuiThemeProvider>
-        <Header/>
-      </MuiThemeProvider>
+      <div className='app'>
+        <MuiThemeProvider>
+          <Header/>
+        </MuiThemeProvider>
+        {this.props.children}
+      </div>
     )
   }
 }
