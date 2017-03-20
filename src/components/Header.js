@@ -108,6 +108,7 @@
 
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
@@ -181,7 +182,8 @@ class Header extends React.Component{
     })
   }
   handleItem(e,child){
-    if(child.props.value==='3') this.logout();
+    if(child.props.value==='6') this.logout();
+    this.setState({openMenu:false})
   }
   logout(){
     axios.get('http://api.duopingshidai.com/user/logout')
@@ -223,7 +225,10 @@ class Header extends React.Component{
                 >
                   <MenuItem value="1" primaryText={`你好,${this.state.user}!`} />
                   <MenuItem value="2" primaryText="个人中心" />
-                  <MenuItem value="3" primaryText="退出"/>
+                  <Link to='/' onlyActiveOnIndex={true}><MenuItem value="3" primaryText="Home"/></Link>
+                  <Link to='category'><MenuItem value="4" primaryText="Category"/></Link>
+                  <Link to='product'><MenuItem value="5" primaryText="Product"/></Link>
+                  <MenuItem value="6" primaryText="退出"/>
                 </IconMenu> :
                 <FlatButton label='登录/注册' onTouchTap={this.handleOpen.bind(this)}/>
             }

@@ -3,17 +3,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+a{
+  text-decoration: none;
+}
 html,body{
 
 }
-/*.header-wrap{
-
-}
-.app-bar{
-  position: relative;
-}
-.loginout{
-  position: absolute;
-  top:0.5em;
-  left: 5em;
-}*/
