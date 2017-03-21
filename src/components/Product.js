@@ -7,7 +7,9 @@ import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import Subheader from 'material-ui/Subheader';
+import ShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
+// import RaisedButton from 'material-ui/RaisedButton';
 
 class Product extends React.Component {
   constructor() {
@@ -30,6 +32,8 @@ class Product extends React.Component {
     axios.post('http://api.duopingshidai.com/product/new',{name:`${this.state.name}`,summary:`${this.state.summary}`,price:`${this.state.price}`,poster:`${this.state.poster}`,category:`${this.state.category}`})
       .then(res => {
         console.log(res);
+        this.state.products.push(res.data.product)
+        this.setState({products:this.state.products})
 
         this.setState({msg:res.data.msg})
         this.setState({snackBar:true})
@@ -51,18 +55,40 @@ class Product extends React.Component {
       })
     console.log(this.state.getMsg.name);
   }
-  handleDelete(){
-    axios.delete(`http://api.duopingshidai.com/product/delete/${this.state.delete}`)
+  handleDelete(id){
+    const post = this.state.products.filter(item => item._id!=id)
+    this.setState({ products: post })
+    let _id = id || this.state.delete
+    axios.delete(`http://api.duopingshidai.com/product/delete/${_id}`)
       .then( res => {
         console.log(res);
+        this.setState({msg:res.data.msg})
+        this.setState({snackBar:true})
       })
   }
   componentWillMount(){
-    axios.get('http://api.duopingshidai.com/products?page=1&limit=10')
+    axios.get('http://api.duopingshidai.com/products?page=0&limit=100')
       .then( res => {
         console.log(res);
         this.setState({products:res.data.products})
       })
+  }
+  handleCar(){
+    axios.request({url:'http://api.duopingshidai.com/shopping/add',method:'post',headers: {'Authorization': localStorage.userId}})
+      .then(res => {
+        console.log(res);
+        this.setState({msg:res.data.msg})
+        this.setState({snackBar:true})
+      })
+      .catch(err => {
+        if(err.response){
+          alert(err.response.data.msg);
+        }else{
+          console.log('Error',err);
+        }
+      })
+    // console.log(localStorage.userId);
+
   }
   render(){
     const styles = {
@@ -72,30 +98,31 @@ class Product extends React.Component {
         justifyContent: 'space-around',
       },
       gridList: {
-        display: 'flex',
-        flexWrap: 'nowrap',
-        overflowX: 'auto',
+        width: 500,
+        height: 450,
+        overflowY: 'auto',
       },
-      titleStyle: {
-        color: 'rgb(0, 188, 212)',
-      },
-    };
+    }
     return(
       <div>
         <MuiThemeProvider>
           <div>
 
             <div style={styles.root}>
-              <GridList style={styles.gridList} cols={2.2}>
+              <GridList
+                cellHeight={180}
+                style={styles.gridList}
+              >
+                <Subheader>December</Subheader>
                 {this.state.products.map((item) => (
                   <GridTile
                     key={Math.random()}
                     title={item.name}
-                    actionIcon={<IconButton><StarBorder color="rgb(0, 188, 212)" /></IconButton>}
-                    titleStyle={styles.titleStyle}
-                    titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
+                    subtitle={<span>{item.summary} <b>{item.price}元</b></span>}
+                    actionIcon={<IconButton onTouchTap={this.handleCar.bind(this)}><ShoppingCart color="white" /></IconButton>}
                   >
                     <img src={item.poster} />
+                    <button onClick={this.handleDelete.bind(this,item._id)}>Delete</button>
                   </GridTile>
                 ))}
               </GridList>
