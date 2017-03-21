@@ -34,7 +34,7 @@ class ShoppingCar extends React.Component {
       })
   }
   render(){
-    console.log(this.state.shops);
+    // console.log(this.state.shops);
     return(
       <div>
         <MuiThemeProvider>
@@ -54,13 +54,13 @@ class ShoppingCar extends React.Component {
                   <TableRowColumn>John Smith</TableRowColumn>
                   <TableRowColumn>Employed</TableRowColumn>
                 </TableRow> */}
-                {this.state.shops.map(item => {
-                  <TableRow>
+                {this.state.shops.map(item =>
+                  <TableRow key={Math.random()}>
                     <TableRowColumn>{item._id}</TableRowColumn>
                     <TableRowColumn>{item.createdAt}</TableRowColumn>
-                    <TableRowColumn>{item.pay}</TableRowColumn>
+                    <TableRowColumn>{item.pay ? '已支付' : '未支付'}</TableRowColumn>
                   </TableRow>
-                })}
+                )}
               </TableBody>
             </Table>
 
