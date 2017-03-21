@@ -5,6 +5,7 @@ import App from './App.js'
 import Home from './components/Home.js'
 import Category from './components/Category.js'
 import Product from './components/Product.js'
+import ShoppingCar from './components/ShoppingCar.js'
 
 export default function () {
   return(
@@ -13,6 +14,7 @@ export default function () {
         <IndexRoute component={Home}/>
         <Route path='category' component={Category}/>
         <Route path='product' component={Product}/>
+        <Route path='shoppingcar' component={ShoppingCar}/>
       </Route>
     </Router>
   )

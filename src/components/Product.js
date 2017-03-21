@@ -9,7 +9,6 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import ShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
-// import RaisedButton from 'material-ui/RaisedButton';
 
 class Product extends React.Component {
   constructor() {
@@ -73,8 +72,8 @@ class Product extends React.Component {
         this.setState({products:res.data.products})
       })
   }
-  handleCar(){
-    axios.request({url:'http://api.duopingshidai.com/shopping/add',method:'post',headers: {'Authorization': localStorage.userId}})
+  handleCar(id){
+    axios.request({url:'http://api.duopingshidai.com/shopping/add',method:'post',headers: {'Authorization': localStorage.userId}})//,product:id,num:1
       .then(res => {
         console.log(res);
         this.setState({msg:res.data.msg})
@@ -119,10 +118,10 @@ class Product extends React.Component {
                     key={Math.random()}
                     title={item.name}
                     subtitle={<span>{item.summary} <b>{item.price}元</b></span>}
-                    actionIcon={<IconButton onTouchTap={this.handleCar.bind(this)}><ShoppingCart color="white" /></IconButton>}
+                    actionIcon={<IconButton onTouchTap={this.handleCar.bind(this,item._id)}><ShoppingCart color="white" /></IconButton>}
                   >
                     <img src={item.poster} />
-                    <button onClick={this.handleDelete.bind(this,item._id)}>Delete</button>
+                    <RaisedButton label="Delete" onTouchTap={this.handleDelete.bind(this,item._id)}/>
                   </GridTile>
                 ))}
               </GridList>

@@ -182,7 +182,7 @@ class Header extends React.Component{
     })
   }
   handleItem(e,child){
-    if(child.props.value==='6') this.logout();
+    if(child.props.value==='7') this.logout();
     this.setState({openMenu:false})
   }
   logout(){
@@ -228,7 +228,8 @@ class Header extends React.Component{
                   <Link to='/' onlyActiveOnIndex={true}><MenuItem value="3" primaryText="Home"/></Link>
                   <Link to='category'><MenuItem value="4" primaryText="Category"/></Link>
                   <Link to='product'><MenuItem value="5" primaryText="Product"/></Link>
-                  <MenuItem value="6" primaryText="退出"/>
+                  <Link to='shoppingcar'><MenuItem value="6" primaryText="ShoppingCar"/></Link>
+                  <MenuItem value="7" primaryText="退出"/>
                 </IconMenu> :
                 <FlatButton label='登录/注册' onTouchTap={this.handleOpen.bind(this)}/>
             }
