@@ -64,9 +64,10 @@ class Category extends React.Component {
       <div>
         <MuiThemeProvider>
           <div>
-            <TextField hintText="add class" floatingLabelText="add class" onChange={(event,addclass)=>{this.setState({addclass})}}/>
-            <RaisedButton label="添加商品分类" onTouchTap={this.handleAdd.bind(this)}/>
-            {/* <RaisedButton label="获取所有分类" onTouchTap={this.handleGet.bind(this)}/> */}
+            <div style={{textAlign:'center'}}>
+              <TextField hintText="add class" floatingLabelText="add class" onChange={(event,addclass)=>{this.setState({addclass})}}/>
+              <RaisedButton label="添加商品分类" onTouchTap={this.handleAdd.bind(this)}/>
+            </div>
             <Snackbar
               open={this.state.snackBar}
               message={this.state.msg}
@@ -74,7 +75,7 @@ class Category extends React.Component {
               onRequestClose={() => this.setState({snackBar:false})}
               bodyStyle={{textAlign:'center'}}
             />
-            <List style={{width:'50%'}}>
+            <List style={{width:'50%',margin:'0 auto'}}>
               {
                 this.state.categories.map(item => <ListItem key={Math.random()} primaryText={item.name} rightIcon={<Delete onTouchTap={this.handleDelete.bind(this,item._id)}/>} />)
               }

@@ -36,44 +36,42 @@ class ShoppingCar extends React.Component {
   render(){
     // console.log(this.state.shops);
     return(
-      <div>
-        <MuiThemeProvider>
-          <div>
-            <Subheader inset={true}>{this.state.username}的购物车</Subheader>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHeaderColumn>ID</TableHeaderColumn>
-                  <TableHeaderColumn>创建时间</TableHeaderColumn>
-                  <TableHeaderColumn>支付状态</TableHeaderColumn>
+      <MuiThemeProvider>
+        <div style={{textAlign:'center'}}>
+          <h3>{this.state.username}的购物车</h3>
+          <Table style={{width:'80%',margin:'0 auto'}}>
+            <TableHeader>
+              <TableRow>
+                <TableHeaderColumn>ID</TableHeaderColumn>
+                <TableHeaderColumn>创建时间</TableHeaderColumn>
+                <TableHeaderColumn>支付状态</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {/* <TableRow>
+                <TableRowColumn>1</TableRowColumn>
+                <TableRowColumn>John Smith</TableRowColumn>
+                <TableRowColumn>Employed</TableRowColumn>
+              </TableRow> */}
+              {this.state.shops.map(item =>
+                <TableRow key={Math.random()}>
+                  <TableRowColumn>{item._id}</TableRowColumn>
+                  <TableRowColumn>{item.createdAt}</TableRowColumn>
+                  <TableRowColumn>{item.pay ? '已支付' : '未支付'}</TableRowColumn>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {/* <TableRow>
-                  <TableRowColumn>1</TableRowColumn>
-                  <TableRowColumn>John Smith</TableRowColumn>
-                  <TableRowColumn>Employed</TableRowColumn>
-                </TableRow> */}
-                {this.state.shops.map(item =>
-                  <TableRow key={Math.random()}>
-                    <TableRowColumn>{item._id}</TableRowColumn>
-                    <TableRowColumn>{item.createdAt}</TableRowColumn>
-                    <TableRowColumn>{item.pay ? '已支付' : '未支付'}</TableRowColumn>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+              )}
+            </TableBody>
+          </Table>
 
-            <Snackbar
-              open={this.state.snackBar}
-              message={this.state.msg}
-              autoHideDuration={2000}
-              onRequestClose={() => this.setState({snackBar:false})}
-              bodyStyle={{textAlign:'center'}}
-            />
-          </div>
-        </MuiThemeProvider>
-      </div>
+          <Snackbar
+            open={this.state.snackBar}
+            message={this.state.msg}
+            autoHideDuration={2000}
+            onRequestClose={() => this.setState({snackBar:false})}
+            bodyStyle={{textAlign:'center'}}
+          />
+        </div>
+      </MuiThemeProvider>
     )
   }
 }

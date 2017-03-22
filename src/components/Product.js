@@ -106,7 +106,6 @@ class Product extends React.Component {
       <div>
         <MuiThemeProvider>
           <div>
-
             <div style={styles.root}>
               <GridList
                 cellHeight={180}
@@ -127,24 +126,26 @@ class Product extends React.Component {
               </GridList>
             </div>
 
-            <TextField hintText="name" floatingLabelText="name" onChange={(event,name)=>{this.setState({name})}}/>
-            <TextField hintText="summary" floatingLabelText="summary" onChange={(event,summary)=>{this.setState({summary})}}/>
-            <TextField hintText="price" floatingLabelText="price" onChange={(event,price)=>{this.setState({price})}}/>
-            <TextField hintText="poster" floatingLabelText="poster" onChange={(event,poster)=>{this.setState({poster})}}/>
-            <TextField hintText="category" floatingLabelText="category" onChange={(event,category)=>{this.setState({category})}}/><br/>
-            <RaisedButton label="新增商品" onTouchTap={this.handleAdd.bind(this)}/>
-            <br/>
-            <TextField hintText="detail" floatingLabelText="detail" onChange={(event,detail)=>{this.setState({detail})}}/><br/>
-            <RaisedButton label="获取单个商品信息" onTouchTap={this.handleGet.bind(this)}/>
-            <div>
-              <p>{this.state.getMsg.name}</p>
-              <img src={this.state.getMsg.poster} alt=""/>
-              <span>{this.state.getMsg.price}</span>
-              <span>{this.state.getMsg.summary}</span>
+            <div style={{textAlign: 'center'}}>
+              <TextField hintText="name" floatingLabelText="name" onChange={(event,name)=>{this.setState({name})}}/><br/>
+              <TextField hintText="summary" floatingLabelText="summary" onChange={(event,summary)=>{this.setState({summary})}}/><br/>
+              <TextField hintText="price" floatingLabelText="price" onChange={(event,price)=>{this.setState({price})}}/><br/>
+              <TextField hintText="poster" floatingLabelText="poster" onChange={(event,poster)=>{this.setState({poster})}}/><br/>
+              <TextField hintText="category" floatingLabelText="category" onChange={(event,category)=>{this.setState({category})}}/><br/>
+              <RaisedButton label="新增商品" onTouchTap={this.handleAdd.bind(this)}/>
+              <br/>
+              <TextField hintText="detail" floatingLabelText="detail" onChange={(event,detail)=>{this.setState({detail})}}/>
+              <RaisedButton label="获取单个商品信息" onTouchTap={this.handleGet.bind(this)}/>
+              <div>
+                <p>{this.state.getMsg.name}</p>
+                <img src={this.state.getMsg.poster} alt=""/>
+                <span>{this.state.getMsg.price}</span>
+                <span>{this.state.getMsg.summary}</span>
+              </div>
+              <br/>
+              <TextField hintText="delete" floatingLabelText="delete" onChange={(event,value)=>{this.setState({delete:value})}}/>
+              <RaisedButton label="删除单个商品" onTouchTap={this.handleDelete.bind(this)}/>
             </div>
-            <br/>
-            <TextField hintText="delete" floatingLabelText="delete" onChange={(event,value)=>{this.setState({delete:value})}}/><br/>
-            <RaisedButton label="删除单个商品" onTouchTap={this.handleDelete.bind(this)}/>
 
             <Snackbar
               open={this.state.snackBar}
