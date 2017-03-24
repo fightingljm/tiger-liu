@@ -9,6 +9,8 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import ShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 class Product extends React.Component {
   constructor() {
@@ -24,11 +26,20 @@ class Product extends React.Component {
       detail:'',
       getMsg:{},
       delete:'',
-      products:[]
+      products:[],
+      value:'58d4af16e8e87c6510d03727',
+      categories:[]
     }
   }
   handleAdd(){
-    axios.post('http://api.duopingshidai.com/product/new',{name:`${this.state.name}`,summary:`${this.state.summary}`,price:`${this.state.price}`,poster:`${this.state.poster}`,category:`${this.state.category}`})
+    let pro = {
+      name:`${this.state.name}`,
+      summary:`${this.state.summary}`,
+      price:`${this.state.price}`,
+      poster:`${this.state.poster}`,
+      category:`${this.state.value}`
+    }
+    axios.post('http://api.duopingshidai.com/product/new',pro)
       .then(res => {
         console.log(res);
         this.state.products.push(res.data.product)
@@ -45,14 +56,13 @@ class Product extends React.Component {
         }
       })
   }
-  // 58cf610281eaba5480e08b90
   handleGet(){
     axios.get(`http://api.duopingshidai.com/product/detail/${this.state.detail}`)
       .then( res => {
         console.log(res);
         this.setState({getMsg:res.data.product})
       })
-    console.log(this.state.getMsg.name);
+    // console.log(this.state.getMsg.name);
   }
   handleDelete(id){
     const post = this.state.products.filter(item => item._id!=id)
@@ -71,9 +81,14 @@ class Product extends React.Component {
         console.log(res);
         this.setState({products:res.data.products})
       })
+    axios.get('http://api.duopingshidai.com/category')
+      .then( res => {
+        console.log(res);
+        this.setState({categories:res.data.categories})
+      })
   }
   handleCar(id){
-    axios.request({url:'http://api.duopingshidai.com/shopping/add',method:'post',headers: {'Authorization': localStorage.userId}})//,product:id,num:1
+    axios.request({url:'http://api.duopingshidai.com/shopping/add',method:'post',headers: {'Authorization': localStorage.userId},product:id,num:1})//,product:id,num:1
       .then(res => {
         console.log(res);
         this.setState({msg:res.data.msg})
@@ -87,7 +102,10 @@ class Product extends React.Component {
         }
       })
     // console.log(localStorage.userId);
-
+  }
+  handleChange (event, index, value) {
+    // console.log(value);
+    this.setState({value})
   }
   render(){
     const styles = {
@@ -102,6 +120,11 @@ class Product extends React.Component {
         overflowY: 'auto',
       },
     }
+    let optionList = this.state.categories.map(item => {
+      return(
+        <MenuItem  key={Math.random()} value={item._id} primaryText={item.name} />
+      )
+    })
     return(
       <div>
         <MuiThemeProvider>
@@ -111,7 +134,7 @@ class Product extends React.Component {
                 cellHeight={180}
                 style={styles.gridList}
               >
-                <Subheader>December</Subheader>
+                <Subheader>Product Details</Subheader>
                 {this.state.products.map((item) => (
                   <GridTile
                     key={Math.random()}
@@ -131,7 +154,13 @@ class Product extends React.Component {
               <TextField hintText="summary" floatingLabelText="summary" onChange={(event,summary)=>{this.setState({summary})}}/><br/>
               <TextField hintText="price" floatingLabelText="price" onChange={(event,price)=>{this.setState({price})}}/><br/>
               <TextField hintText="poster" floatingLabelText="poster" onChange={(event,poster)=>{this.setState({poster})}}/><br/>
-              <TextField hintText="category" floatingLabelText="category" onChange={(event,category)=>{this.setState({category})}}/><br/>
+              <SelectField
+                floatingLabelText="category"
+                value={this.state.value}
+                onChange={this.handleChange.bind(this)}
+              >
+                {optionList}
+              </SelectField><br/>
               <RaisedButton label="新增商品" onTouchTap={this.handleAdd.bind(this)}/>
               <br/>
               <TextField hintText="detail" floatingLabelText="detail" onChange={(event,detail)=>{this.setState({detail})}}/>

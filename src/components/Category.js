@@ -23,9 +23,10 @@ class Category extends React.Component {
     axios.post('http://api.duopingshidai.com/category',{name:`${this.state.addclass}`})
       .then(res => {
         console.log(res.data.category);
-        this.state.categories.push(res.data.category)
 
+        this.state.categories.push(res.data.category)
         this.setState({categories:this.state.categories})
+
         this.setState({msg:res.data.msg})
         this.setState({snackBar:true})
       })
@@ -36,6 +37,7 @@ class Category extends React.Component {
           console.log('Error',err);
         }
       })
+    this.setState({addclass:''})
   }
   componentWillMount(){
     axios.get('http://api.duopingshidai.com/category')

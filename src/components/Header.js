@@ -1,114 +1,6 @@
-// import React from 'react';
-//
-// import AppBar from 'material-ui/AppBar';
-// import IconButton from 'material-ui/IconButton';
-// import ActionHome from 'material-ui/svg-icons/action/home';
-// import FlatButton from 'material-ui/FlatButton';
-// import RaisedButton from 'material-ui/RaisedButton';
-// import Popover, {PopoverAnimationVertical} from 'material-ui/Popover';
-// import Menu from 'material-ui/Menu';
-// import MenuItem from 'material-ui/MenuItem';
-// import Dialog from 'material-ui/Dialog';
-//
-// class Header extends React.Component {
-//   constructor() {
-//     super();
-//     this.state={
-//       open: false,
-//       signup: false,
-//       login: false
-//     }
-//   }
-//   handleTouchTap(event){
-//     event.preventDefault();
-//     this.setState({
-//       open: true,
-//       anchorEl: event.currentTarget,
-//     })
-//   }
-//   handleRequestClose() {
-//     this.setState({
-//       open: false,
-//     })
-//   }
-//   handleOpenSignup() {
-//     this.setState({open: false});
-//     this.setState({signup: true});
-//   }
-//   handleOpenLogin() {
-//     this.setState({open: false});
-//     this.setState({login: true});
-//   }
-//   handleClose() {
-//     this.setState({login: false});
-//     this.setState({signup: false});
-//   }
-//   render(){
-//     const styles = {
-//       title: {
-//         cursor: 'pointer',
-//       },
-//     }
-//     const actions = [
-//       <FlatButton
-//         label="Cancel"
-//         primary={true}
-//         onTouchTap={this.handleClose.bind(this)}
-//       />,
-//       <FlatButton
-//         label="Submit"
-//         primary={true}
-//         // disabled={true}
-//         onTouchTap={this.handleClose.bind(this)}
-//       />,
-//     ]
-//     return(
-//       <div>
-//         <AppBar
-//           title={<span style={styles.title}>Home</span>}
-//           iconElementLeft={<IconButton><ActionHome /></IconButton>}
-//           iconElementRight={<FlatButton onTouchTap={this.handleTouchTap.bind(this)} label="Click me"/>}
-//         />
-//         <Popover
-//           open={this.state.open}
-//           anchorEl={this.state.anchorEl}
-//           anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-//           targetOrigin={{horizontal: 'left', vertical: 'top'}}
-//           onRequestClose={this.handleRequestClose.bind(this)}
-//           animation={PopoverAnimationVertical}
-//         >
-//           <Menu>
-//             <MenuItem primaryText="Sign up" onTouchTap={this.handleOpenSignup.bind(this)}/>
-//             <MenuItem primaryText="Login" onTouchTap={this.handleOpenLogin.bind(this)}/>
-//           </Menu>
-//         </Popover>
-//         <Dialog
-//           title="注册"
-//           actions={actions}
-//           modal={true}
-//           open={this.state.signup}
-//         >
-//           Only actions can close this dialog.
-//         </Dialog>
-//         <Dialog
-//           title="登录"
-//           actions={actions}
-//           modal={true}
-//           open={this.state.login}
-//         >
-//           Only actions can close this dialog.
-//         </Dialog>
-//       </div>
-//     )
-//   }
-// }
-//
-// export default Header;
-
-
 import React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router';
+import { Link,browserHistory } from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
@@ -163,9 +55,13 @@ class Header extends React.Component{
     axios.post(`http://api.duopingshidai.com/user/${this.state.action}`,data)
       .then(res => {
         console.log(res);
-        this.setState({open:false,isLogin:true,user:res.data.user,userId:res.data.userId})
+        this.setState({open:false,user:res.data.user,userId:res.data.userId})
         localStorage.setItem('user',res.data.user)
         localStorage.setItem('userId',res.data.userId)
+        if(this.state.action=='signin'){
+          this.setState({isLogin:true})
+          browserHistory.push('/product');
+        }
       })
       .catch(err => {
         if(err.response){
